@@ -1,0 +1,29 @@
+const express = require('express');
+const bodyParser = require('body-parser');
+const path = require('path');
+const app = express();
+const port = 3000;
+
+let isParked = false;
+
+app.use(bodyParser.json());
+
+app.post('/updateParkStatus', (req, res) => {
+    if (req.body.hasOwnProperty('isParked')) {
+        isParked = req.body.isParked;
+        console.log(`Updated parking status: ${isParked}`);
+        res.status(200).send('Status updated');
+    } else {
+        res.status(400).send('Bad Request');
+    }
+});
+
+app.get('/isParked', (req, res) => {
+    res.json({ isParked });
+});
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
+});

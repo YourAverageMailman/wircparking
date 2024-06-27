@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Parking Status</title>
+    <script>
+        async function fetchParkingStatus() {
+            const response = await fetch('http://localhost:3000/isParked');
+            const data = await response.json();
+            document.getElementById('status').innerText = data.isParked ? 'Parked' : 'Not Parked';
+        }
+
+        setInterval(fetchParkingStatus, 5000); // Fetch status every 5 seconds
+    </script>
+</head>
+<body onload="fetchParkingStatus()">
+    <h1>Parking Status</h1>
+    <p>Status: <span id="status">Loading...</span></p>
+</body>
+</html>

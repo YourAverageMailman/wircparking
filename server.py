@@ -12,28 +12,35 @@ def init_db():
     conn = sqlite3.connect('data.db')
     c = conn.cursor()
     c.execute('''CREATE TABLE IF NOT EXISTS sensor_data (
-                    id INTEGER PRIMARY KEY CHECK (id = 1), 
-                    value REAL
+                    id INTEGER PRIMARY KEY, 
+                    value BOOLEAN
                 )''')
-    c.execute('INSERT OR IGNORE INTO sensor_data (id, value) VALUES (1, 0.0)')
+    for i in range(1, 7):
+        c.execute('INSERT OR IGNORE INTO sensor_data (id, value) VALUES (?, 0)', (i,))
     conn.commit()
     conn.close()
 
-# Route to handle data insertion and updating
+# Route to handle data insertion from ESP32
 @app.route('/add', methods=['POST'])
 def add_data():
-    value = request.json.get('value')
-    if value is None:
-        return jsonify({'error': 'No value provided'}), 400
+    data = request.json
+    if not data or 'values' not in data:
+        return jsonify({'error': 'Invalid data format'}), 400
+
+    values = data['values']
+    if len(values) != 6:
+        return jsonify({'error': 'Expected 6 sensor values'}), 400
+
+    updates = [(i + 1, values[i]) for i in range(6)]
 
     conn = sqlite3.connect('data.db')
     c = conn.cursor()
-    c.execute('REPLACE INTO sensor_data (id, value) VALUES (1, ?)', (value,))
+    c.executemany('REPLACE INTO sensor_data (id, value) VALUES (?, ?)', updates)
     conn.commit()
     conn.close()
 
     # Notify all clients about the update
-    socketio.emit('data_updated', {'id': 1, 'value': value})
+    socketio.emit('data_updated', {'values': values})
 
     return jsonify({'message': 'Data updated successfully'}), 200
 
@@ -42,14 +49,11 @@ def add_data():
 def get_data():
     conn = sqlite3.connect('data.db')
     c = conn.cursor()
-    c.execute('SELECT * FROM sensor_data WHERE id = 1')
-    data = c.fetchone()
+    c.execute('SELECT * FROM sensor_data ORDER BY id')
+    data = c.fetchall()
     conn.close()
 
-    if data:
-        return jsonify({'id': data[0], 'value': data[1]}), 200
-    else:
-        return jsonify({'error': 'No data found'}), 404
+    return jsonify({row[0]: row[1] for row in data}), 200
 
 if __name__ == '__main__':
     init_db()

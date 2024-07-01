@@ -25,81 +25,186 @@
           }, {});
       });
   });
+
+let isOpen = false;
+
+function toggleDropdown() {
+	isOpen = !isOpen;
+}
+
+function closeDropdown() {
+	isOpen = false;
+}
 </script>
 
-<div class="container">
-  <nav class="sidebar">
-      <ul>
-          <li><a href="#">Home</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Services</a></li>
-          <li><a href="#">Contact</a></li>
-      </ul>
-  </nav>
-  <main class="content">
-    <div class="grid-container">
-        {#each Object.keys(sensorData) as id}
-          <div class="grid-item">
-            <p>Sensor {id}: {sensorData[id]}</p>
-          </div>
-        {/each}
-      </div>
-  </main>
-</div>
+<nav>
+	<img
+		id="icon"
+		class="nav-item"
+		src="https://play-lh.googleusercontent.com/2x2QYh3UlhBp5CYl63N2nP0eX3TSbikRFh38WUuh7oToWGamdXkPz5wrwOmDK-7GSg=w240-h480-rw"
+		alt=""
+	/>
+
+	<div class="dropdown nav-item" on:blur={closeDropdown}>
+		<button class="dropdown-button" on:click={toggleDropdown}>Members</button>
+		<div class="dropdown-content {isOpen ? 'show' : ''}">
+			<a href="#option1">Rezvan</a>
+			<a href="#option2">Aurellino</a>
+			<a href="#option3">Fahri</a>
+		</div>
+	</div>
+</nav>
+<main class="flex-container">
+	<div class="flex-item">
+		<h1 class="parking-header">1st Floor</h1>
+		<div class="parking-space">
+			<div class="parking">1</div>
+		</div>
+	</div>
+	<div class="flex-item">
+		<h1 class="parking-header">2nd Floor</h1>
+		<div class="parking-space">
+			<div class="parking">4</div>
+		</div>
+	</div>
+</main>
 
 <style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+	@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap');
 
-body {
-    font-family: Arial, sans-serif;
-}
+	#icon {
+		height: 6rem;
+		margin-right: 2rem;
+	}
+	:root {
+		--background: #1c1f26;
+		--background-2: #2d323e;
+		--foreground: #1b41b3;
+		--foreground-2: #265dff;
+		--text-fg: #1c1f26;
+		--text-bg: #ebf5ff;
+		background-color: var(--background);
+		font-family: 'Red Hat Display', sans-serif;
+		color: white;
+	}
+	nav {
+		font-size: x-large;
+		padding: 0.5rem;
+		background-color: var(--foreground);
+		margin: 0px;
+		color: #292f36;
+		font-weight: 800;
+		display: flex;
+		justify-content: space-between;
+		position: relative;
+		padding-top: 0.8rem;
+	}
 
-.container {
-    display: flex;
-}
+	.nav-item {
+		margin-right: 0.2rem;
+	}
+	.flex-container {
+		display: flex;
+	}
+	.flex-item {
+		width: 100%;
+		height: 100%;
+	}
+	.parking-header {
+		margin: 1.5rem;
+		color: var(--text-bg);
+		background-color: var(--background-2);
+		padding: 1.5rem;
+		border-radius: 5px;
+	}
+	.parking-space {
+		background-color: var(--background);
+		display: grid;
+	}
+	.parking {
+		text-align: center;
+		padding: 2rem;
+		padding-top: 3rem;
+		padding-bottom: 3rem;
+		margin-left: 30%;
+		margin-right: 30%;
+		border-top: var(--text-bg) solid 10px;
+		border-right: var(--text-bg) solid 15px;
+		border-bottom: var(--text-bg) solid 10px;
+		border-radius: 15px;
+	}
+	@media (max-width: 480px) {
+		#user {
+			height: auto;
+			line-height: normal;
+			padding: 1rem;
+			margin-top: 1rem;
+			white-space: normal;
+			width: 100%;
+			text-align: center;
+		}
+		.parking {
+			margin-left: 10%;
+			margin-right: 10%;
+		}
+	}
 
-.sidebar {
-    width: 200px;
-    background-color: #333;
-    color: #fff;
-    padding: 15px;
-}
+	.dropdown {
+		position: relative;
+		display: inline-block;
+		align-items: center;
+		justify-self: flex-end !important;
+	}
 
-.sidebar ul {
-    list-style: none;
-}
+	.dropdown-content {
+		display: none;
+		position: absolute;
+		background-color: var(--foreground);
+		min-width: 160px;
+		box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+		z-index: 1;
+		border-radius: 8px;
+	}
 
-.sidebar ul li {
-    margin-bottom: 10px;
-}
+	.dropdown-content a {
+		color: var(--text-bg);
+		padding: 12px 16px;
+		text-decoration: none;
+		display: block;
+		border-radius: 8px;
+		transition-property: background-color transform box-shadow;
+		transition-duration: 100ms;
+		transition-timing-function: cubic-bezier(0.445, 0.05, 0.55, 0.95);
+	}
 
-.sidebar ul li a {
-    color: #fff;
-    text-decoration: none;
-    display: block;
-    padding: 10px;
-    border-radius: 4px;
-    transition: background-color 0.3s;
-}
+	.dropdown-content a:hover {
+		background-color: var(--foreground-2);
+		transform: scale(110%) translateY(-5px);
+		box-shadow: 2px 2px 2px #020c2a;
+	}
 
-.sidebar ul li a:hover {
-    background-color: #575757;
-}
+	.dropdown-content.show {
+		display: block;
+	}
 
-.content {
-    flex-grow: 1;
-    padding: 20px;
-}
+	.dropdown-button {
+		height: 100%;
+		background-color: var(--foreground-2);
+		padding: 1.5rem;
+		font-size: x-large;
+		border: none;
+		cursor: pointer;
+		text-align: center;
+		border-radius: 8px;
+		font-weight: 900;
+		color: var(--text-bg);
+		transition-property: transform box-shadow;
+		transition-duration: 100ms;
+		transition-timing-function: cubic-bezier(0.445, 0.05, 0.55, 0.95);
+	}
 
-.content h1 {
-    margin-bottom: 20px;
-}
-
-.content p {
-    line-height: 1.6;
-}
+	.dropdown-button:hover {
+		transform: scale(110%) translateY(-5px);
+		box-shadow: 2px 2px 2px #020c2a;
+	}
 </style>

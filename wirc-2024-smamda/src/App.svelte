@@ -37,8 +37,13 @@
       </ul>
   </nav>
   <main class="content">
-      <h1>Welcome to the Simple Sidebar Layout</h1>
-      <p>This is a simple example of a sidebar layout using HTML and CSS.</p>
+    <div class="grid-container">
+        {#each Object.keys(sensorData) as id}
+          <div class="grid-item">
+            <p>Sensor {id}: {sensorData[id]}</p>
+          </div>
+        {/each}
+      </div>
   </main>
 </div>
 

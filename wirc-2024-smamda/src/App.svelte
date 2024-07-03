@@ -58,7 +58,7 @@
   <div class="flex-item">
     <h1 class="parking-header">1st Floor</h1>
     <div class="parking-space">
-      <div class="parking">
+      <div class={sensorData[1] ? 'parking-full' : 'parking-empty'}>
         {#if sensorData[1]}
           <img
             src="https://cdn.discordapp.com/attachments/902905746528829460/1257254959741665290/car-icon.png?ex=6683bd6d&is=66826bed&hm=1961c7949252db8c605f25e1a7b8bb9b818e5beeaacd483459c52f9324cdf277&"
@@ -69,7 +69,7 @@
           <h2>EMPTY</h2>
         {/if}
       </div>
-      <div class="parking">
+      <div class={sensorData[2] ? 'parking-full' : 'parking-empty'}>
         {#if sensorData[2]}
           <img
             src="https://cdn.discordapp.com/attachments/902905746528829460/1257254959741665290/car-icon.png?ex=6683bd6d&is=66826bed&hm=1961c7949252db8c605f25e1a7b8bb9b818e5beeaacd483459c52f9324cdf277&"
@@ -80,7 +80,7 @@
           <h2>EMPTY</h2>
         {/if}
       </div>
-      <div class="parking">
+      <div class={sensorData[3] ? 'parking-full' : 'parking-empty'}>
         {#if sensorData[3]}
           <img
             src="https://cdn.discordapp.com/attachments/902905746528829460/1257254959741665290/car-icon.png?ex=6683bd6d&is=66826bed&hm=1961c7949252db8c605f25e1a7b8bb9b818e5beeaacd483459c52f9324cdf277&"
@@ -96,40 +96,39 @@
   <div class="flex-item">
     <h1 class="parking-header">2nd Floor</h1>
     <div class="parking-space">
-		<div class="parking">
-			{#if sensorData[4]}
-			  <img
-				src="https://cdn.discordapp.com/attachments/902905746528829460/1257254959741665290/car-icon.png?ex=6683bd6d&is=66826bed&hm=1961c7949252db8c605f25e1a7b8bb9b818e5beeaacd483459c52f9324cdf277&"
-				alt=""
-				class="parking-icon"
-			  />
-			{:else}
-			  <h2>EMPTY</h2>
-			{/if}
-		  </div>
-		  <div class="parking">
-			{#if sensorData[5]}
-			  <img
-				src="https://cdn.discordapp.com/attachments/902905746528829460/1257254959741665290/car-icon.png?ex=6683bd6d&is=66826bed&hm=1961c7949252db8c605f25e1a7b8bb9b818e5beeaacd483459c52f9324cdf277&"
-				alt=""
-				class="parking-icon"
-			  />
-			{:else}
-			  <h2>EMPTY</h2>
-			{/if}
-		  </div>
-		  <div class="parking">
-			{#if sensorData[6]}
-			  <img
-				src="https://cdn.discordapp.com/attachments/902905746528829460/1257254959741665290/car-icon.png?ex=6683bd6d&is=66826bed&hm=1961c7949252db8c605f25e1a7b8bb9b818e5beeaacd483459c52f9324cdf277&"
-				alt=""
-				class="parking-icon"
-			  />
-			{:else}
-			  <h2>EMPTY</h2>
-			{/if}
-		  </div>
-    </div>
+      <div class={sensorData[4] ? 'parking-full' : 'parking-empty'}>
+        {#if sensorData[4]}
+          <img
+            src="https://cdn.discordapp.com/attachments/902905746528829460/1257254959741665290/car-icon.png?ex=6683bd6d&is=66826bed&hm=1961c7949252db8c605f25e1a7b8bb9b818e5beeaacd483459c52f9324cdf277&"
+            alt=""
+            class="parking-icon"
+          />
+        {:else}
+          <h2>EMPTY</h2>
+        {/if}
+      </div>
+      <div class={sensorData[5] ? 'parking-full' : 'parking-empty'}>
+        {#if sensorData[5]}
+          <img
+            src="https://cdn.discordapp.com/attachments/902905746528829460/1257254959741665290/car-icon.png?ex=6683bd6d&is=66826bed&hm=1961c7949252db8c605f25e1a7b8bb9b818e5beeaacd483459c52f9324cdf277&"
+            alt=""
+            class="parking-icon"
+          />
+        {:else}
+          <h2>EMPTY</h2>
+        {/if}
+      </div>
+      <div class={sensorData[6] ? 'parking-full' : 'parking-empty'}>
+        {#if sensorData[6]}
+          <img
+            src="https://cdn.discordapp.com/attachments/902905746528829460/1257254959741665290/car-icon.png?ex=6683bd6d&is=66826bed&hm=1961c7949252db8c605f25e1a7b8bb9b818e5beeaacd483459c52f9324cdf277&"
+            alt=""
+            class="parking-icon"
+          />
+        {:else}
+          <h2>EMPTY</h2>
+        {/if}
+      </div>
   </div>
 </main>
 
@@ -185,18 +184,31 @@
     background-color: var(--background);
     display: grid;
   }
-  .parking {
+  .parking-full {
     text-align: center;
     padding: 0.5rem;
     margin-left: auto;
     margin-right: auto;
 	margin-top: 10px;
-    border-top: var(--text-bg) solid 10px;
-    border-right: var(--text-bg) solid 15px;
-    border-bottom: var(--text-bg) solid 10px;
+    border-top: red solid 10px;
+    border-right: red solid 15px;
+    border-bottom: red solid 10px;
     border-radius: 15px;
-	width: 100px;
-	height: 50px;
+	  width: 100px;
+	  height: 50px;
+  }
+  .parking-empty {
+    text-align: center;
+    padding: 0.5rem;
+    margin-left: auto;
+    margin-right: auto;
+	margin-top: 10px;
+    border-top: green solid 10px;
+    border-right: green solid 15px;
+    border-bottom: green solid 10px;
+    border-radius: 15px;
+	  width: 100px;
+	  height: 50px;
   }
   .parking-icon {
     width: 100px;
